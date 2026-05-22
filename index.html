@@ -15394,3 +15394,245 @@ body{
   }
 }
 ```
+/* ==================================================
+   CHAPTER 4 - PRICING SETUP OVERRIDE
+   直接貼到原本 CSS 最下面即可
+================================================== */
+
+.ch4-pricing-screen{
+  padding:72px 18px 18px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.ch4-pricing-card{
+  width:min(78%,920px);
+  padding:20px;
+  border-radius:22px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255,255,255,.82),
+      rgba(255,248,244,.78)
+    );
+
+  backdrop-filter:blur(14px);
+
+  box-shadow:
+    0 14px 40px rgba(42,22,15,.12),
+    inset 0 1px 0 rgba(255,255,255,.6);
+
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+/* header */
+
+.ch4-pricing-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:18px;
+}
+
+.ch4-pricing-kicker{
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  opacity:.58;
+  margin-bottom:6px;
+}
+
+.ch4-pricing-title{
+  margin:0 0 8px;
+  font-size:1.7rem;
+  line-height:1.15;
+}
+
+.ch4-pricing-description{
+  margin:0;
+  line-height:1.6;
+  font-size:.92rem;
+  opacity:.78;
+  max-width:620px;
+}
+
+/* confirm button */
+
+.ch4-pricing-confirm{
+  border:none;
+  background:#2f2118;
+  color:white;
+
+  border-radius:14px;
+
+  padding:.9em 1.4em;
+
+  font-size:.9rem;
+  font-weight:600;
+
+  cursor:pointer;
+  transition:.2s;
+}
+
+.ch4-pricing-confirm:hover{
+  transform:translateY(-1px);
+  opacity:.92;
+}
+
+/* stats */
+
+.ch4-pricing-stats{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.ch4-pricing-stats span{
+  padding:.42em .7em;
+  border-radius:999px;
+
+  background:rgba(47,33,24,.08);
+
+  font-size:.76rem;
+  font-weight:600;
+}
+
+/* pricing grid */
+
+.ch4-pricing-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.ch4-price-item{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.ch4-price-item label{
+  font-size:.82rem;
+  font-weight:700;
+}
+
+.ch4-price-input{
+  height:46px;
+
+  border-radius:14px;
+
+  background:white;
+
+  border:1px solid rgba(47,33,24,.08);
+
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  padding:0 14px;
+}
+
+.ch4-price-input span{
+  font-size:.86rem;
+  opacity:.55;
+}
+
+.ch4-price-input input{
+  flex:1;
+
+  border:none;
+  background:none;
+  outline:none;
+
+  font-size:.95rem;
+  font-weight:600;
+}
+
+/* default placeholder values */
+
+.ch4-price-input input[value="399"],
+.ch4-price-input input[value="999"],
+.ch4-price-input input[value="200"]{
+  color:#2f2118;
+}
+
+/* options */
+
+.ch4-pricing-options{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+
+.ch4-option-card{
+  padding:16px;
+
+  border-radius:18px;
+
+  background:rgba(255,255,255,.7);
+
+  border:1px solid rgba(47,33,24,.06);
+
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.ch4-option-card h3{
+  margin:0;
+  font-size:.95rem;
+}
+
+.ch4-radio{
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  font-size:.82rem;
+
+  cursor:pointer;
+}
+
+.ch4-radio input{
+  accent-color:#2f2118;
+}
+
+/* compact mode */
+
+.ch4-pricing-card input{
+  min-height:auto;
+}
+
+/* mobile */
+
+@media (max-width:768px){
+
+  .ch4-pricing-screen{
+    padding:66px 12px 12px;
+  }
+
+  .ch4-pricing-grid,
+  .ch4-pricing-options{
+    grid-template-columns:1fr;
+  }
+
+  .ch4-pricing-header{
+    flex-direction:column;
+  }
+
+  .ch4-pricing-card{
+    width:100%;
+    padding:16px;
+    gap:14px;
+  }
+
+  .ch4-pricing-title{
+    font-size:1.4rem;
+  }
+
+}
