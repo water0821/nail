@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>指尖創業日記｜最後結果報告</title>
+
+  <style>
+    :root {
+      --cream: #f7efe5;
+      --ivory: #fff9f0;
+      --nude: #e9cfc2;
+      --rose: #d9aea2;
+      --brown: #3f3029;
+      --brown-soft: #6d574c;
+      --shadow: rgba(64, 45, 34, 0.22);
+      --dark: rgba(20, 16, 14, 0.45);
+      --font-main: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+      --font-serif: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      font-family: var(--font-main);
+      color: var(--brown);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255, 246, 235, 0.95), transparent 32%),
+        radial-gradient(circle at 82% 70%, rgba(238, 204, 193, 0.55), transparent 34%),
+        linear-gradient(135deg, #f5eadf 0%, #fffaf2 48%, #edd7cc 100%);
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .page {
+      width: 100vw;
+      height: 100dvh;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: max(8px, env(safe-area-inset-top))
+               max(8px, env(safe-area-inset-right))
+               max(8px, env(safe-area-inset-bottom))
+               max(8px, env(safe-area-inset-left));
+    }
+
+    .game-frame {
+      position: relative;
+      width: min(98vw, calc(98dvh * 16 / 9));
+      height: min(calc(98vw * 9 / 16), 98dvh);
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: clamp(14px, 2vw, 24px);
+      background:
+        linear-gradient(135deg, #f7eadf, #d8b9aa);
+      box-shadow:
+        0 20px 60px rgba(77, 52, 39, 0.22),
+        0 8px 20px rgba(77, 52, 39, 0.14);
+      isolation: isolate;
+    }
+
+    .game-frame::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 45%, transparent 48%, rgba(30, 18, 13, 0.15) 100%),
+        linear-gradient(to bottom, rgba(255, 252, 244, 0.06), rgba(38, 22, 16, 0.15));
+      mix-blend-mode: multiply;
+    }
+
+    .background-layer,
+    .video-layer,
+    .dark-overlay,
+    .screen {
+      position: absolute;
+      inset: 0;
+    }
+
+    .background-layer {
+      z-index: 1;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 42%, rgba(255, 250, 242, 0.18), transparent 38%),
+        linear-gradient(135deg, #f3e2d8 0%, #c9a092 100%);
+      transform: scale(1.01);
+      transition: opacity 0.7s ease, filter 0.7s ease;
+    }
+
+    .background-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0;
+      transition: opacity 0.45s ease, filter 0.45s ease;
+    }
+
+    .background-image.is-visible {
+      opacity: 1;
+    }
+
+    .background-layer::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(135deg, rgba(246, 229, 217, 0.16), rgba(92, 61, 49, 0.18)),
+        radial-gradient(circle at 50% 42%, rgba(255, 250, 242, 0.14), transparent 38%);
+    }
+
+    .video-layer {
+      z-index: 2;
+      background: transparent;
+      pointer-events: none;
+    }
+
+    .scene-video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(1.01);
+      transition: opacity 0.7s ease;
+      background: linear-gradient(135deg, #ead6ca, #b99688);
+    }
+
+    .scene-video.is-visible {
+      opacity: 1;
+    }
+
+    .dark-overlay {
+      z-index: 3;
+      pointer-events: none;
+      opacity: 0;
+      background: rgba(20, 16, 14, 0.45);
+      transition: opacity 0.6s ease, background 0.6s ease;
+    }
+
+    .dark-overlay.is-visible {
+      opacity: 1;
+    }
+
+    .screen {
+      z-index: 5;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .screen.is-active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .cover-screen {
+      display: grid;
+      place-items: center;
+    }
+
+    .chapter-chip {
+      position: absolute;
+      top: clamp(12px, 2vw, 24px);
+      left: clamp(12px, 2vw, 24px);
+      padding: 0.4em 0.8em;
+      border-radius: 999px;
+      color: rgba(68, 47, 38, 0.9);
+      background: rgba(255, 248, 238, 0.44);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.46);
+      box-shadow: 0 6px 18px rgba(64, 45, 34, 0.1);
+      font-size: clamp(0.72rem, 1.1vw, 0.88rem);
+      letter-spacing: 0.1em;
+    }
+
+    .enter-button {
+      position: absolute;
+      left: 50%;
+      top: 73%;
+      transform: translate(-50%, -50%);
+      min-width: clamp(150px, 20vw, 210px);
+      min-height: clamp(40px, 5.5vw, 54px);
+      padding: 0.7em 2em;
+      border: 1px solid rgba(255, 255, 255, 0.58);
+      border-radius: 999px;
+      cursor: pointer;
+      color: #3d2d26;
+      background: linear-gradient(135deg, rgba(255, 251, 243, 0.76), rgba(233, 201, 188, 0.62));
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow:
+        0 12px 32px rgba(50, 34, 27, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      font-weight: 700;
+      font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+      letter-spacing: 0.08em;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+    }
+
+    @media (hover: hover) {
+      .enter-button:hover {
+        transform: translate(-50%, calc(-50% - 3px));
+        box-shadow:
+          0 16px 40px rgba(50, 34, 27, 0.24),
+          inset 0 1px 0 rgba(255, 255, 255, 0.64);
+      }
+    }
+
+    .enter-button:active {
+      transform: translate(-50%, calc(-50% - 1px)) scale(0.98);
+    }
+
+    .enter-button:disabled {
+      cursor: default;
+      opacity: 0.62;
+    }
+
+    .choice-screen {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0 clamp(14px, 3vw, 48px) clamp(20px, 4vh, 4
